@@ -6,7 +6,6 @@ import Switch from "../../components/Switch";
 
 import { StyledHeader } from "../../style/Mint/style";
 // import { theme } from "../../theme";
-import "react-datepicker/dist/react-datepicker.css";
 import "react-toastify/dist/ReactToastify.css";
 import { AiTwotoneSetting, AiOutlineDownCircle } from "react-icons/ai";
 const Header = () => {

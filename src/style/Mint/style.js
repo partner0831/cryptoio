@@ -1,14 +1,4 @@
 import styled from "styled-components";
-import { injectGlobal } from "styled-components";
-import horizonFont from "../../assets/fonts/Horizon.ttf";
-injectGlobal`
-  @font-face {
-    font-family: 'horizon';
-    src: url(${horizonFont});
-    font-weight: normal;
-    font-style: normal;
-  }
-  `;
 
 ////////////////////////////////////////////////////
 export const StyledHeader = styled.div`
