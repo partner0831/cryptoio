@@ -76,8 +76,9 @@ const Navbar = () => {
             padding="20px 10px"
             border="10px solid #5ce1e6 !important"
             borderRadius="10px"
+            cursor="pointer"
           >
-            <Text fontWeight="bold">1addrdX......3E4a</Text>
+            <Text fontWeight="bold">Connect Wallet</Text>
           </Row>
         </Row>
       </Col>

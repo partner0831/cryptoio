@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { theme } from "../../theme";
 
-export const Input = styled.input`
+export const CustomInput = styled.input`
   z-index: 1;
   width: ${(props) => props.width || "auto"};
   max-width: ${(props) => props.maxWidth || "auto"};
   height: ${(props) => props.height || "auto"};
   font-size: ${(props) => props.fontSize || "1rem"};
   font-weight: ${(props) => props.fontWeight || "bold"};
+  color: ${(props) => props.fontColor || "#FFFFFF"};
   padding: ${(props) => props.padding || 0};
   line-height: ${(props) => props.lineHeight || 0};
   text-align: ${(props) => props.align || "start"};
