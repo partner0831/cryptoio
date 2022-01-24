@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import { Col, Row } from "../../components/Layout";
 import { Text } from "../../components/Text";
 import { CustomInput } from "../../components/Input";
+
 import { Radio, RadioGroup } from "@mui/material";
+import { SwitchButton } from "../../components/Switch";
 
 import { StyledHeader, CustomArea, CustomButton } from "../../style/Mint/style";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,28 +14,48 @@ import { AiTwotoneSetting, AiOutlineDownCircle } from "react-icons/ai";
 import { GoPlus } from "react-icons/go";
 import { BiMinus } from "react-icons/bi";
 const Header = () => {
-  // const [count, setCount] = useState(1);
-  const [flag, setFlag] = useState(false);
   const [value, setValue] = useState(false);
+  const [singleNFT, setSingleNFT] = useState(false);
+  const [singleFile, setSingleFile] = useState(false);
   const [mintValue, setMintValue] = useState([
-    { num: 1, name: "mintedBy", value: "Cardahub.io", flag: true },
-    { num: 2, name: "mintedBy", value: "Cardahub.io", flag: false },
-    { num: 3, name: "mintedBy", value: "Cardahub.io", flag: true },
+    {
+      num: 1,
+      name: "",
+      description: "",
+      value: "",
+      flag: true,
+      clickable: false,
+    },
   ]);
   const onChangePlusMint = (num) => {
-    // const data = mintValue;
     const data = mintValue.map((item) => {
       if (item.num === num) {
         item.flag = !item.flag;
       }
       return item;
     });
-    data.push({ num: num + 1, name: "", value: "", flag: true });
+    data.push({
+      num: num + 1,
+      name: "",
+      description: "",
+      value: "",
+      flag: true,
+      clickable: false,
+    });
     setMintValue(data);
   };
   const onChangeMinusMint = (num) => {
     let data = [];
     mintValue.map((item) => item.num !== num && data.push(item));
+    setMintValue(data);
+  };
+  const onChangeSetting = (num) => {
+    const data = mintValue.map((item) => {
+      if (item.num === num) {
+        item.clickable = !item.clickable;
+      }
+      return item;
+    });
     setMintValue(data);
   };
   return (
@@ -84,7 +106,7 @@ const Header = () => {
               Single NFT
             </Text>
           </Row>
-
+          <SwitchButton />
           <Row
             padding="20px 30px"
             border="10px solid #5ce1e6 !important"
@@ -114,7 +136,7 @@ const Header = () => {
               Single File
             </Text>
           </Row>
-
+          <SwitchButton />
           <Row
             padding="20px 33px"
             border="10px solid #5ce1e6 !important"
@@ -158,143 +180,138 @@ const Header = () => {
             </Text>
           </Col>
         </Row>
-        <Row
-          margin="25px 0 0 0"
-          mgap="0 30px 0 0"
-          width="100%"
-          justify="space-between"
-        >
-          <Col maxWidth="40%" position="relative">
-            <Col
-              backgroundColor="#996b45"
-              width="300px"
-              height="250px"
-              padding="30px 30px"
-              align="center"
-              position="absolute"
-              zIndex="2"
-              top="-150px"
-              left="25px"
-              display={flag ? "flex" : "none"}
-            >
-              <Text fontWeight="bold" fontSize="30px" align="center">
-                ADVANCED SETTINGS
-              </Text>
-              <RadioGroup
-                value={value}
-                onChange={() => {
-                  setValue(!value);
-                }}
-              >
-                <Row width="100%">
-                  <Text fontWeight="bold" fontSize="18px">
-                    STORE ON IPFS
-                  </Text>
-                  <Radio />
-                </Row>
-                <Row width="100%">
-                  <Text fontWeight="bold" fontSize="18px">
-                    STORE ON ARWEAVE
-                  </Text>
-                  <Radio />
-                </Row>
-              </RadioGroup>
-            </Col>
 
-            <CustomInput
-              fontWeight="bold"
-              fontSize="20px"
-              placeholder="Variant name..."
-              backgroundColor="transparent"
-              fontColor="white"
-              padding="20px 30px"
-              border="10px solid #5ce1e6 !important"
-              borderRadius="10px"
-              width="100%"
-            />
-
-            <Row justify="space-between" margin="20px 0 0 0" width="100%">
-              <Text fontWeight="bold" fontSize="20px" align="center">
-                Advanced Settings
-              </Text>
-              <AiTwotoneSetting
-                size="50"
-                color="grey"
-                cursor="pointer"
-                onClick={() => {
-                  setFlag(!flag);
-                }}
-              />
-            </Row>
-          </Col>
-          <Row
-            height="200px"
-            maxWidth="48%"
-            width="400px"
-            border="10px solid #5ce1e6 !important"
-            borderRadius="10px"
-            align="flex-start"
-            padding="30px"
-          >
-            <CustomArea placeholder="Description"></CustomArea>
-          </Row>
-        </Row>
         {mintValue.map((item, key) => {
           return (
-            <Row
-              margin="25px 0 0 0"
-              width="100%"
-              justify="space-between"
-              position="relative"
-              key={key + 1}
-            >
-              <CustomInput
-                fontWeight="bold"
-                fontSize="20px"
-                fontColor="white"
-                placeholder={item.num === 1 ? "mintedBy" : "e.g.`Size`"}
-                disabled={item.num === 1 ? true : false}
-                backgroundColor="transparent"
-                padding="20px 30px"
-                border="10px solid #5ce1e6 !important"
-                borderRadius="10px"
-                width="45%"
-              />
-              <CustomInput
-                fontWeight="bold"
-                fontSize="20px"
-                placeholder={item.num === 1 ? "Cardahub.io" : "e.g.`100m`"}
-                disabled={item.num === 1 ? true : false}
-                backgroundColor="transparent"
-                fontColor="white"
-                padding="20px 30px"
-                border="10px solid #5ce1e6 !important"
-                borderRadius="10px"
-                width="48%"
-              />
-              <CustomButton
-                disabled={true}
-                cursor={item.num === 1 ? "not-allowed" : "pointer"}
+            <div key={key + 1}>
+              <Row
+                margin="25px 0 0 0"
+                mgap="0 30px 0 0"
+                width="100%"
+                justify="space-between"
               >
-                {item.flag === false || item.num === 1 ? (
-                  <BiMinus
-                    size="30"
-                    color="black"
-                    onClick={() =>
-                      item.num !== 1 && onChangeMinusMint(item.num)
-                    }
+                <Col maxWidth="40%" position="relative">
+                  <Col
+                    backgroundColor="#996b45"
+                    width="300px"
+                    height="250px"
+                    padding="30px 30px"
+                    align="center"
+                    position="absolute"
+                    zIndex="2"
+                    top="-150px"
+                    left="25px"
+                    display={item.clickable ? "flex" : "none"}
+                  >
+                    <Text fontWeight="bold" fontSize="30px" align="center">
+                      ADVANCED SETTINGS
+                    </Text>
+                    <RadioGroup
+                      value={value}
+                      onChange={() => {
+                        onChangeSetting(!value);
+                      }}
+                    >
+                      <Row width="100%">
+                        <Text fontWeight="bold" fontSize="18px">
+                          STORE ON IPFS
+                        </Text>
+                        <Radio />
+                      </Row>
+                      <Row width="100%">
+                        <Text fontWeight="bold" fontSize="18px">
+                          STORE ON ARWEAVE
+                        </Text>
+                        <Radio />
+                      </Row>
+                    </RadioGroup>
+                  </Col>
+
+                  <CustomInput
+                    fontWeight="bold"
+                    fontSize="20px"
+                    placeholder="Name..."
+                    backgroundColor="transparent"
+                    fontColor="white"
+                    padding="20px 30px"
+                    border="10px solid #5ce1e6 !important"
+                    borderRadius="10px"
+                    width="100%"
                   />
-                ) : (
-                  <GoPlus
-                    size="30"
-                    color="black"
-                    onClick={() => {
-                      onChangePlusMint(item.num);
-                    }}
-                  />
-                )}
-              </CustomButton>
-            </Row>
+
+                  <Row justify="space-between" margin="20px 0 0 0" width="100%">
+                    <Text fontWeight="bold" fontSize="20px" align="center">
+                      Advanced Settings
+                    </Text>
+                    <AiTwotoneSetting
+                      size="50"
+                      color="grey"
+                      cursor="pointer"
+                      onClick={() => {
+                        onChangeSetting(item.num);
+                      }}
+                    />
+                  </Row>
+                </Col>
+                <Row
+                  height="200px"
+                  maxWidth="48%"
+                  width="400px"
+                  border="10px solid #5ce1e6 !important"
+                  borderRadius="10px"
+                  align="flex-start"
+                  padding="30px"
+                >
+                  <CustomArea placeholder="Description.." />
+                </Row>
+              </Row>
+              <Row
+                margin="25px 0 0 0"
+                width="100%"
+                justify="space-between"
+                position="relative"
+              >
+                <CustomInput
+                  fontWeight="bold"
+                  fontSize="20px"
+                  fontColor="white"
+                  placeholder="Variant name..."
+                  backgroundColor="transparent"
+                  padding="20px 30px"
+                  border="10px solid #5ce1e6 !important"
+                  borderRadius="10px"
+                  width="45%"
+                />
+                <CustomInput
+                  fontWeight="bold"
+                  fontSize="20px"
+                  placeholder="Variant...(not required)"
+                  backgroundColor="transparent"
+                  fontColor="white"
+                  padding="20px 30px"
+                  border="10px solid #5ce1e6 !important"
+                  borderRadius="10px"
+                  width="48%"
+                />
+                <CustomButton disabled={true}>
+                  {item.flag === false ? (
+                    <BiMinus
+                      size="30"
+                      color="black"
+                      onClick={() => item.num && onChangeMinusMint(item.num)}
+                    />
+                  ) : (
+                    <GoPlus
+                      size="30"
+                      color="black"
+                      onClick={() => {
+                        onChangePlusMint(item.num);
+                      }}
+                    />
+                  )}
+                </CustomButton>
+              </Row>
+            </div>
           );
         })}
 

@@ -188,12 +188,13 @@ export const CustomArea = styled.textarea`
 `;
 export const CustomButton = styled.button`
   cursor: ${(props) => props.cursor || "unset"};
+  cursor: pointer;
   background-color: #ffffff;
   border-radius: 100%;
   position: absolute;
   z-index: 2;
   right: -70px;
-  padding: 8px;
+  padding: 0px;
   outline: none;
   border: none;
 `;
