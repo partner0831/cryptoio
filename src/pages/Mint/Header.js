@@ -24,8 +24,10 @@ const Header = () => {
       name: "",
       description: "",
       value: "",
+      other: "",
       flag: true,
       clickable: false,
+      store: "ipfs",
     },
   ]);
   const onChangePlusMint = (num) => {
@@ -40,8 +42,10 @@ const Header = () => {
       name: "",
       description: "",
       value: "",
+      other: "",
       flag: true,
       clickable: false,
+      store: "ipfs",
     });
     setMintValue(data);
   };
@@ -54,6 +58,25 @@ const Header = () => {
     const data = mintValue.map((item) => {
       if (item.num === num) {
         item.clickable = !item.clickable;
+      }
+      return item;
+    });
+    setMintValue(data);
+  };
+  const onChangeInput = (e, num) => {
+    const data = mintValue.map((item) => {
+      if (item.num === num) {
+        item[e.target.name] = e.target.value;
+      }
+      return item;
+    });
+    setMintValue(data);
+  };
+  const onChangeStore = (e, num) => {
+    console.log(e.target.value, num);
+    const data = mintValue.map((item) => {
+      if (item.num === num) {
+        item.store = e.target.value;
       }
       return item;
     });
@@ -211,8 +234,11 @@ const Header = () => {
                     </Text>
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
-                      defaultValue="ipfs"
+                      value={item.store === "ipfs" ? "ipfs" : "arweave"}
                       name="radio-buttons-group"
+                      onChange={(e) => {
+                        onChangeStore(e, item.num);
+                      }}
                     >
                       <Row width="100%">
                         <Text fontWeight="bold" fontSize="18px">
@@ -233,12 +259,17 @@ const Header = () => {
                     fontWeight="bold"
                     fontSize="20px"
                     placeholder="Name..."
+                    value={item.name}
                     backgroundColor="transparent"
                     fontColor="white"
                     padding="20px 30px"
                     border="10px solid #5ce1e6 !important"
                     borderRadius="10px"
                     width="100%"
+                    name="name"
+                    onChange={(e) => {
+                      onChangeInput(e, item.num);
+                    }}
                   />
 
                   <Row justify="space-between" margin="20px 0 0 0" width="100%">
@@ -264,7 +295,14 @@ const Header = () => {
                   align="flex-start"
                   padding="30px"
                 >
-                  <CustomArea placeholder="Description.." />
+                  <CustomArea
+                    placeholder="Description.."
+                    value={item.description}
+                    name="description"
+                    onChange={(e) => {
+                      onChangeInput(e, item.num);
+                    }}
+                  />
                 </Row>
               </Row>
               <Row
@@ -283,6 +321,11 @@ const Header = () => {
                   border="10px solid #5ce1e6 !important"
                   borderRadius="10px"
                   width="45%"
+                  name="value"
+                  value={item.value}
+                  onChange={(e) => {
+                    onChangeInput(e, item.num);
+                  }}
                 />
                 <CustomInput
                   fontWeight="bold"
@@ -294,6 +337,11 @@ const Header = () => {
                   border="10px solid #5ce1e6 !important"
                   borderRadius="10px"
                   width="48%"
+                  value={item.other}
+                  name="other"
+                  onChange={(e) => {
+                    onChangeInput(e, item.num);
+                  }}
                 />
                 <CustomButton disabled={true}>
                   {item.flag === false ? (
@@ -323,6 +371,9 @@ const Header = () => {
             border="10px solid #5ce1e6 !important"
             borderRadius="10px"
             cursor="pointer"
+            onClick={() => {
+              console.log(mintValue);
+            }}
           >
             <Text fontWeight="bold" fontSize="20px">
               MINT NOW
