@@ -2,7 +2,7 @@ import styled from "styled-components";
 import isEmpty from "../../utils/isEmpty";
 
 export const Col = styled.div`
-  display: flex;
+  display: ${(props) => props.display || "flex"};
   flex-direction: column;
   width: ${(props) => props.width || "100%"};
   max-width: ${(props) => props.maxWidth || "auto"};
@@ -48,7 +48,7 @@ export const Col = styled.div`
   }
 `;
 export const Row = styled.div`
-  display: flex;
+  display: ${(props) => props.display || "flex"};
   flex-direction: row;
   width: ${(props) => props.width || "auto"};
   max-width: ${(props) => props.maxWidth || "auto"};

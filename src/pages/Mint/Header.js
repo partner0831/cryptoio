@@ -1,16 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 // @import Component
 import { Col, Row } from "../../components/Layout";
 import { Text } from "../../components/Text";
 import { CustomInput } from "../../components/Input";
+import { Radio, RadioGroup } from "@mui/material";
 
-import { StyledHeader } from "../../style/Mint/style";
-// import { theme } from "../../theme";
+import { StyledHeader, CustomArea, CustomButton } from "../../style/Mint/style";
 import "react-toastify/dist/ReactToastify.css";
+
 import { AiTwotoneSetting, AiOutlineDownCircle } from "react-icons/ai";
 import { GoPlus } from "react-icons/go";
+import { BiMinus } from "react-icons/bi";
 const Header = () => {
   // const [count, setCount] = useState(1);
+  const [flag, setFlag] = useState(false);
+  const [value, setValue] = useState(false);
+  const [mintValue, setMintValue] = useState([
+    { num: 1, name: "mintedBy", value: "Cardahub.io", flag: true },
+    { num: 2, name: "mintedBy", value: "Cardahub.io", flag: false },
+    { num: 3, name: "mintedBy", value: "Cardahub.io", flag: true },
+  ]);
+  const onChangePlusMint = (num) => {
+    // const data = mintValue;
+    const data = mintValue.map((item) => {
+      if (item.num === num) {
+        item.flag = !item.flag;
+      }
+      return item;
+    });
+    data.push({ num: num + 1, name: "", value: "", flag: true });
+    setMintValue(data);
+  };
+  const onChangeMinusMint = (num) => {
+    let data = [];
+    mintValue.map((item) => item.num !== num && data.push(item));
+    setMintValue(data);
+  };
   return (
     <StyledHeader>
       <Col align="center" width="740px">
@@ -139,7 +164,43 @@ const Header = () => {
           width="100%"
           justify="space-between"
         >
-          <Col maxWidth="45%">
+          <Col maxWidth="40%" position="relative">
+            <Col
+              backgroundColor="#996b45"
+              width="300px"
+              height="250px"
+              padding="30px 30px"
+              align="center"
+              position="absolute"
+              zIndex="2"
+              top="-150px"
+              left="25px"
+              display={flag ? "flex" : "none"}
+            >
+              <Text fontWeight="bold" fontSize="30px" align="center">
+                ADVANCED SETTINGS
+              </Text>
+              <RadioGroup
+                value={value}
+                onChange={() => {
+                  setValue(!value);
+                }}
+              >
+                <Row width="100%">
+                  <Text fontWeight="bold" fontSize="18px">
+                    STORE ON IPFS
+                  </Text>
+                  <Radio />
+                </Row>
+                <Row width="100%">
+                  <Text fontWeight="bold" fontSize="18px">
+                    STORE ON ARWEAVE
+                  </Text>
+                  <Radio />
+                </Row>
+              </RadioGroup>
+            </Col>
+
             <CustomInput
               fontWeight="bold"
               fontSize="20px"
@@ -156,63 +217,87 @@ const Header = () => {
               <Text fontWeight="bold" fontSize="20px" align="center">
                 Advanced Settings
               </Text>
-              <AiTwotoneSetting size="50" color="grey" cursor="pointer" />
+              <AiTwotoneSetting
+                size="50"
+                color="grey"
+                cursor="pointer"
+                onClick={() => {
+                  setFlag(!flag);
+                }}
+              />
             </Row>
           </Col>
-          <CustomInput
-            maxWidth="48%"
-            border="10px solid #5ce1e6 !important"
-            borderRadius="10px"
-            padding="0 30px"
-            width="400px"
-            height="200px"
-            fontSize="20px"
-            fontWeight="bold"
-            placeholder="Description"
-            backgroundColor="transparent"
-          />
-        </Row>
-
-        <Row
-          margin="25px 0 0 0"
-          width="100%"
-          justify="space-between"
-          position="relative"
-        >
-          <CustomInput
-            fontWeight="bold"
-            fontSize="20px"
-            placeholder="Variant name..."
-            backgroundColor="transparent"
-            fontColor="white"
-            padding="20px 30px"
-            border="10px solid #5ce1e6 !important"
-            borderRadius="10px"
-            width="45%"
-          />
-          <CustomInput
-            fontWeight="bold"
-            fontSize="20px"
-            placeholder="Variant name..."
-            backgroundColor="transparent"
-            fontColor="white"
-            padding="20px 30px"
-            border="10px solid #5ce1e6 !important"
-            borderRadius="10px"
-            width="48%"
-          />
           <Row
-            backgroundColor="white"
-            borderRadius="100%"
-            position="absolute"
-            zIndex="2"
-            right="-70px"
-            padding="8px"
-            cursor="pointer"
+            height="200px"
+            maxWidth="48%"
+            width="400px"
+            border="10px solid #5ce1e6 !important"
+            borderRadius="10px"
+            align="flex-start"
+            padding="30px"
           >
-            <GoPlus size="30" color="black"></GoPlus>
+            <CustomArea placeholder="Description"></CustomArea>
           </Row>
         </Row>
+        {mintValue.map((item, key) => {
+          return (
+            <Row
+              margin="25px 0 0 0"
+              width="100%"
+              justify="space-between"
+              position="relative"
+              key={key + 1}
+            >
+              <CustomInput
+                fontWeight="bold"
+                fontSize="20px"
+                fontColor="white"
+                placeholder={item.num === 1 ? "mintedBy" : "e.g.`Size`"}
+                disabled={item.num === 1 ? true : false}
+                backgroundColor="transparent"
+                padding="20px 30px"
+                border="10px solid #5ce1e6 !important"
+                borderRadius="10px"
+                width="45%"
+              />
+              <CustomInput
+                fontWeight="bold"
+                fontSize="20px"
+                placeholder={item.num === 1 ? "Cardahub.io" : "e.g.`100m`"}
+                disabled={item.num === 1 ? true : false}
+                backgroundColor="transparent"
+                fontColor="white"
+                padding="20px 30px"
+                border="10px solid #5ce1e6 !important"
+                borderRadius="10px"
+                width="48%"
+              />
+              <CustomButton
+                disabled={true}
+                cursor={item.num === 1 ? "not-allowed" : "pointer"}
+              >
+                {item.flag === false || item.num === 1 ? (
+                  <BiMinus
+                    size="30"
+                    color="black"
+                    onClick={() =>
+                      item.num !== 1 && onChangeMinusMint(item.num)
+                    }
+                  />
+                ) : (
+                  <GoPlus
+                    size="30"
+                    color="black"
+                    onClick={() => {
+                      onChangePlusMint(item.num);
+                    }}
+                  />
+                )}
+              </CustomButton>
+            </Row>
+          );
+        })}
+
         <Row margin="25px 0 50px 0">
           <Row
             padding="20px 30px"

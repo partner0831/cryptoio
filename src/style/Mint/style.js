@@ -176,3 +176,24 @@ export const StyledTeam = styled.div`
     }
   }
 `;
+export const CustomArea = styled.textarea`
+  background-color: transparent;
+  border-color: transparent;
+  font-weight: bold;
+  font-size: 20px;
+  color: white;
+  outline: none;
+  width: 100%;
+  height: 100%;
+`;
+export const CustomButton = styled.button`
+  cursor: ${(props) => props.cursor || "unset"};
+  background-color: #ffffff;
+  border-radius: 100%;
+  position: absolute;
+  z-index: 2;
+  right: -70px;
+  padding: 8px;
+  outline: none;
+  border: none;
+`;
