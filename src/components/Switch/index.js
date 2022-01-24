@@ -1,9 +1,19 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
-const IOSSwitch = styled((props) => (
-  <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
+export const SwitchButton = styled((props) => {
+  return (
+    <Switch
+      checked={props.checked}
+      onChange={(event) => {
+        props.onClick(event.target.checked);
+      }}
+      focusVisibleClassName=".Mui-focusVisible"
+      disableRipple
+      {...props}
+    />
+  );
+})(({ theme }) => ({
   width: 80,
   height: 40,
   padding: 0,
@@ -52,13 +62,3 @@ const IOSSwitch = styled((props) => (
     }),
   },
 }));
-
-export const SwitchButton = ({ onClick }) => {
-  return (
-    <IOSSwitch
-      onClick={() => {
-        onClick();
-      }}
-    />
-  );
-};

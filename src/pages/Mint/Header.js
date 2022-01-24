@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+// @import Page
+import CreateModal from "./Create";
 // @import Component
 import { Col, Row } from "../../components/Layout";
 import { Text } from "../../components/Text";
 import { CustomInput } from "../../components/Input";
-
 import { Radio, RadioGroup } from "@mui/material";
 import { SwitchButton } from "../../components/Switch";
 
@@ -14,7 +15,7 @@ import { AiTwotoneSetting, AiOutlineDownCircle } from "react-icons/ai";
 import { GoPlus } from "react-icons/go";
 import { BiMinus } from "react-icons/bi";
 const Header = () => {
-  const [value, setValue] = useState(false);
+  const [creModal, setCreModal] = useState(false);
   const [singleNFT, setSingleNFT] = useState(false);
   const [singleFile, setSingleFile] = useState(false);
   const [mintValue, setMintValue] = useState([
@@ -79,11 +80,13 @@ const Header = () => {
             </Text>
             <AiOutlineDownCircle size="40" color="white" />
           </Row>
+          <CreateModal open={creModal} onCreateModal={setCreModal} />
           <Row
             padding="28px 25px"
             border="10px solid #5ce1e6 !important"
             borderRadius="10px"
             cursor="pointer"
+            onClick={() => setCreModal(true)}
           >
             <Text fontWeight="bold" fontSize="20px">
               New collection
@@ -106,7 +109,7 @@ const Header = () => {
               Single NFT
             </Text>
           </Row>
-          <SwitchButton />
+          <SwitchButton checked={singleNFT} onClick={setSingleNFT} />
           <Row
             padding="20px 30px"
             border="10px solid #5ce1e6 !important"
@@ -136,7 +139,7 @@ const Header = () => {
               Single File
             </Text>
           </Row>
-          <SwitchButton />
+          <SwitchButton checked={singleFile} onClick={setSingleFile} />
           <Row
             padding="20px 33px"
             border="10px solid #5ce1e6 !important"
@@ -207,22 +210,21 @@ const Header = () => {
                       ADVANCED SETTINGS
                     </Text>
                     <RadioGroup
-                      value={value}
-                      onChange={() => {
-                        onChangeSetting(!value);
-                      }}
+                      aria-labelledby="demo-radio-buttons-group-label"
+                      defaultValue="ipfs"
+                      name="radio-buttons-group"
                     >
                       <Row width="100%">
                         <Text fontWeight="bold" fontSize="18px">
                           STORE ON IPFS
                         </Text>
-                        <Radio />
+                        <Radio value="ipfs" />
                       </Row>
                       <Row width="100%">
                         <Text fontWeight="bold" fontSize="18px">
                           STORE ON ARWEAVE
                         </Text>
-                        <Radio />
+                        <Radio value="arweave" />
                       </Row>
                     </RadioGroup>
                   </Col>

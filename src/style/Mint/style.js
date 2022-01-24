@@ -185,6 +185,20 @@ export const CustomArea = styled.textarea`
   outline: none;
   width: 100%;
   height: 100%;
+  ::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 1; /* Firefox */
+  }
+  :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  ::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: rgba(255, 255, 255, 0.5);
+  }
 `;
 export const CustomButton = styled.button`
   cursor: ${(props) => props.cursor || "unset"};
