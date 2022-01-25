@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useAdaContext } from "../context/CardanoContext";
 // @import component
 import { Row, Col } from "../components/Layout";
 import { Image } from "../components/Image";
@@ -14,9 +15,8 @@ import Sidebar from "./Sidebar";
 
 const Navbar = () => {
   const menuRef = useRef(null);
+  const { currentAcc } = useAdaContext();
   const [menushow, setMenushow] = useState(false);
-  // const [userAccount, setUserAccount] = useState();
-  // const menustate = localStorage.getItem("rightmenu");
 
   useEffect(() => {
     setMenushow(false);
@@ -41,7 +41,14 @@ const Navbar = () => {
     }
     setMenushow(false);
   };
-
+  const connectWallet = async () => {
+    if (window.cardano) {
+      let cardano = window.cardano;
+      await cardano.enable();
+    } else {
+      window.alert("Please install Nami Wallet");
+    }
+  };
   return (
     <StyledNavbar>
       <Sidebar menushow={menushow} menuRef={menuRef} />
@@ -77,8 +84,16 @@ const Navbar = () => {
             border="10px solid #5ce1e6 !important"
             borderRadius="10px"
             cursor="pointer"
+            onClick={() => connectWallet()}
           >
-            <Text fontWeight="bold">Connect Wallet</Text>
+            <Text fontWeight="bold">
+              {currentAcc && currentAcc[0]
+                ? `${currentAcc[0].slice(0, 6)}.....${currentAcc[0].slice(
+                    currentAcc[0].length - 4,
+                    currentAcc[0].length
+                  )}`
+                : "Connect Wallet"}
+            </Text>
           </Row>
         </Row>
       </Col>

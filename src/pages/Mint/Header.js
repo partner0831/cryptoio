@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // @import Page
 import CreateModal from "./Create";
+// import MintModal from "./Mint";
 // @import Component
 import { Col, Row } from "../../components/Layout";
 import { Text } from "../../components/Text";
@@ -16,8 +17,11 @@ import { GoPlus } from "react-icons/go";
 import { BiMinus } from "react-icons/bi";
 const Header = () => {
   const [creModal, setCreModal] = useState(false);
+  // const [mintModal, setMintModal] = useState(false);
   const [singleNFT, setSingleNFT] = useState(false);
   const [singleFile, setSingleFile] = useState(false);
+  const [collection, setCollection] = useState("");
+  const [description, setDescription] = useState("");
   const [mintValue, setMintValue] = useState([
     {
       num: 1,
@@ -103,7 +107,14 @@ const Header = () => {
             </Text>
             <AiOutlineDownCircle size="40" color="white" />
           </Row>
-          <CreateModal open={creModal} onCreateModal={setCreModal} />
+          <CreateModal
+            open={creModal}
+            onCreateModal={setCreModal}
+            collection={collection}
+            description={description}
+            setCollection={setCollection}
+            setDescription={setDescription}
+          />
           <Row
             padding="28px 25px"
             border="10px solid #5ce1e6 !important"
@@ -371,13 +382,18 @@ const Header = () => {
             border="10px solid #5ce1e6 !important"
             borderRadius="10px"
             cursor="pointer"
-            onClick={() => {
-              console.log(mintValue);
-            }}
+            // onClick={() => setMintModal(true)}
           >
             <Text fontWeight="bold" fontSize="20px">
               MINT NOW
             </Text>
+            {/* <MintModal
+              mintValue={mintValue}
+              open={mintModal}
+              onMintModal={setMintModal}
+              collection={collection}
+              description={description}
+            /> */}
           </Row>
         </Row>
       </Col>
